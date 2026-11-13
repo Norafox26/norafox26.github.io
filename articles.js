@@ -1,0 +1,1 @@
+const notes=window.FOX_CONTENT.posts.filter(n=>n.published!==false);

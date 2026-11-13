@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#f5f4f1">
+    <meta name="description" content="Yeliang 的个人角落：原创角色、稿件、随笔与日常链接。">
+    <title>Yeliang · 此间有狐</title>
+    <style>
+        :root {
+            --bg: #f5f4f1;
+            --card: #ffffffad;
+            --text: #233c3b;
+            --muted: #929282;
+            --line: #ffffffdb;
+            --jade: #268d83;
+            --red: #c85c47;
+            --gold: #c69b4d;
+            --shadow: 0 10px 40px #355d4610;
+            --inner: #ffffffa0;
+            --surface: #e6ede8;
+            --cursor: url('assets/default.png') 5 8, auto;
+            --pointer: url('assets/pointer.png') 10 0, pointer
+        }
+
+        html[data-theme=dark] {
+            color-scheme: dark;
+            --bg: #121315;
+            --card: #223034b8;
+            --text: #e1e9dd;
+            --muted: #94a99f;
+            --line: #a5cbb322;
+            --jade: #79c7b7;
+            --red: #f39176;
+            --gold: #d9b569;
+            --shadow: 0 12px 40px #0003;
+            --inner: #a8c9bb12;
+            --surface: #2d3e3e
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 40px;
+            cursor: var(--cursor)
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font: 14px/1.6 "Segoe UI", "Microsoft YaHei", sans-serif;
+            transition: background .4s, color .4s
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button,
+        input {
+            font: inherit;
+            color: inherit
+        }
+
+        button,
+        a,
+        label[for] {
+            cursor: var(--pointer)
+        }
+
+        button {
+            border: 0
+        }
+
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--jade);
+            outline-offset: 5px
+        }
+
+        ::selection {
+            background: #8dc9b88a
+        }
+
+        button {
+            background: none
+        }
+
+        button:disabled {
+            opacity: .4;
+            cursor: not-allowed
+        }
+
+        .atmosphere {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none
+        }
+
+        .atmosphere:before,
+        .atmosphere:after {
+            content: "";
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: .28;
+            background: #a7e0d2;
+            left: -250px;
+            top: 220px
+        }
+
+        .atmosphere:after {
+            background: #eac998;
+            width: 570px;
+            height: 570px;
+            left: auto;
+            right: -200px;
+            top: 20px;
+            opacity: .18
+        }
+
+        header {
+            max-width: 1240px;
+            margin: auto;
+            padding: 32px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .wordmark {
+            font-size: 13px;
+            font-weight: 650;
+            letter-spacing: 2px
+        }
+
+        .wordmark span {
+            color: var(--red);
+            margin-right: 9px
+        }
+
+        .top-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 30px;
+            padding: 9px 15px;
+            backdrop-filter: blur(18px);
+            font-size: 11px;
+            box-shadow: 0 3px 12px #213a2a06
+        }
+
+        .pill:hover {
+            color: var(--jade)
+        }
+
+        .layout {
+            max-width: 1240px;
+            margin: 34px auto 60px;
+            padding: 0 28px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 48px
+        }
+
+        .identity {
+            position: sticky;
+            top: 48px;
+            align-self: start;
+            padding-top: 16px
+        }
+
+        .avatar {
+            width: 98px;
+            height: 98px;
+            border-radius: 30px;
+            background: #e4cda6;
+            overflow: hidden;
+            border: 5px solid var(--card);
+            box-shadow: 0 10px 25px #7b68451c;
+            transform: rotate(-5deg)
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 30%;
+            transform: scale(1.35)
+        }
+
+        .identity h1 {
+            font-size: 34px;
+            letter-spacing: -1.4px;
+            margin: 27px 0 0;
+            font-weight: 650
+        }
+
+        .identity .handle {
+            font: 11px monospace;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin: 5px 0 22px
+        }
+
+        .identity p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.95;
+            margin: 0 0 22px
+        }
+
+        .tags {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin: 0 0 30px
+        }
+
+        .tags span {
+            border: 1px solid #8fa99b36;
+            border-radius: 7px;
+            padding: 3px 8px;
+            font-size: 10px;
+            color: var(--muted)
+        }
+
+        .side-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px
+        }
+
+        .side-nav a {
+            font-size: 12px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between
+        }
+
+        .side-nav a:hover {
+            background: var(--card);
+            color: var(--jade)
+        }
+
+        .side-note {
+            margin-top: 40px;
+            color: var(--muted);
+            font: 10px/2 monospace;
+            letter-spacing: 1px
+        }
+
+        .side-note i {
+            display: inline-block;
+            width: 5px;
+            height: 5px;
+            background: var(--jade);
+            border-radius: 50%;
+            margin-right: 6px
+        }
+
+        .bento {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            align-content: start
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 26px;
+            box-shadow: var(--shadow), inset 0 1px 0 var(--inner);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            transition: transform .28s, box-shadow .28s, border-color .28s;
+            animation: arrive .7s both;
+            animation-delay: var(--delay, 0s)
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px #294d3520, inset 0 1px 0 var(--inner);
+            border-color: #a9d0c0
+        }
+
+        .card:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(400px at var(--mx, 40%) var(--my, 0%), #ffffff23, transparent 65%);
+            z-index: 1
+        }
+
+        .card-label {
+            font: 10px monospace;
+            letter-spacing: 1.8px;
+            color: var(--muted)
+        }
+
+        .oc {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: 370px;
+            background: linear-gradient(145deg, #dcece5, #f6f0dd);
+            padding: 25px;
+            color: #284741
+        }
+
+        .oc .oc-title {
+            font: 32px/1.3 "Microsoft YaHei", sans-serif;
+            letter-spacing: 2px;
+            margin-top: 13px;
+            position: relative;
+            z-index: 2
+        }
+
+        .oc .oc-copy {
+            font-size: 11px;
+            line-height: 1.9;
+            color: #71877b;
+            position: absolute;
+            bottom: 26px;
+            left: 25px;
+            z-index: 2
+        }
+
+        .oc img {
+            mix-blend-mode: multiply;
+            position: absolute;
+            height: 320px;
+            width: 240px;
+            object-fit: contain;
+            right: -29px;
+            bottom: 1px;
+            filter: drop-shadow(6px 14px 10px #49695624);
+            transition: transform .6s
+        }
+
+        .oc:hover img {
+            transform: translate(-7px, -4px) rotate(2deg)
+        }
+
+        .oc .motif {
+            position: absolute;
+            right: 35px;
+            top: 23px;
+            font: 80px serif;
+            color: #c8935730;
+            transform: rotate(20deg)
+        }
+
+        .round-link {
+            position: absolute;
+            bottom: 21px;
+            right: 21px;
+            background: #ffffffb0;
+            border: 1px solid #fff;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            color: #376e61;
+            font-size: 18px;
+            z-index: 2
+        }
+
+        .artwork {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: 370px;
+            padding: 0;
+            text-align: left;
+            background: #2d302d
+        }
+
+        .artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 50% 35%;
+            transition: transform .7s, opacity .25s
+        }
+
+        .artwork:hover img {
+            transform: scale(1.04)
+        }
+
+        .artwork:after {
+            content: "";
+            position: absolute;
+            inset: 40% 0 0;
+            background: linear-gradient(transparent, #142621c9);
+            pointer-events: none
+        }
+
+        .art-caption {
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            bottom: 25px;
+            color: #fff;
+            z-index: 2
+        }
+
+        .art-caption small {
+            font: 9px monospace;
+            letter-spacing: 2px;
+            opacity: .7
+        }
+
+        .art-caption strong {
+            display: block;
+            font-size: 21px;
+            font-weight: 500;
+            margin: 5px 0
+        }
+
+        .art-caption span {
+            font-size: 10px;
+            opacity: .8
+        }
+
+        .art-next {
+            position: absolute;
+            right: 21px;
+            top: 21px;
+            background: #ffffff38;
+            border: 1px solid #fff7;
+            backdrop-filter: blur(12px);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            color: white;
+            z-index: 3;
+            display: grid;
+            place-items: center
+        }
+
+        .social {
+            padding: 19px;
+            min-height: 145px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between
+        }
+
+        .social .icon {
+            font-size: 24px;
+            font-weight: 600;
+            line-height: 1.3
+        }
+
+        .social .arrow {
+            position: absolute;
+            right: 16px;
+            top: 14px;
+            color: var(--muted);
+            font-size: 15px;
+            transition: transform .2s
+        }
+
+        .social:hover .arrow {
+            transform: translate(2px, -2px)
+        }
+
+        .social strong {
+            font-size: 12px;
+            font-weight: 600
+        }
+
+        .social small {
+            font-size: 9px;
+            display: block;
+            color: var(--muted);
+            margin-top: 3px;
+            word-break: break-word
+        }
+
+        .social.x {
+            background: linear-gradient(140deg, var(--card), var(--surface))
+        }
+
+        .social.bluesky .icon {
+            color: #4094cd
+        }
+
+        .social.steam .icon {
+            color: var(--jade)
+        }
+
+        .social.github .icon {
+            color: var(--red)
+        }
+
+        .clock {
+            grid-column: span 2;
+            padding: 23px 25px;
+            min-height: 165px
+        }
+
+        .clock-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .clock-top span:last-child {
+            color: var(--jade);
+            font: 9px monospace
+        }
+
+        .digits {
+            font-variant-numeric: tabular-nums;
+            font-size: 43px;
+            letter-spacing: -2px;
+            line-height: 1.4;
+            font-weight: 300;
+            margin-top: 4px
+        }
+
+        .clock-date {
+            color: var(--muted);
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between
+        }
+
+        .music {
+            grid-column: span 2;
+            padding: 23px;
+            min-height: 165px
+        }
+
+        .music-top {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            margin-top: 16px
+        }
+
+        .record {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: repeating-radial-gradient(#2d4540 0 2px, #3a524b 3px 4px);
+            display: grid;
+            place-items: center;
+            box-shadow: 0 4px 12px #0002
+        }
+
+        .record:after {
+            content: "";
+            height: 14px;
+            width: 14px;
+            background: #dfbd79;
+            border-radius: 50%;
+            border: 5px solid #b38d52
+        }
+
+        .music.playing .record {
+            animation: spin 8s linear infinite
+        }
+
+        .music-title {
+            flex: 1;
+            min-width: 0
+        }
+
+        .music-title strong {
+            font-size: 12px;
+            font-weight: 500;
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .music-title small {
+            font-size: 9px;
+            color: var(--muted)
+        }
+
+        .play {
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            background: var(--jade);
+            color: var(--bg);
+            flex-shrink: 0
+        }
+
+        .audio-bottom {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 14px
+        }
+
+        .audio-bottom input {
+            min-width: 0;
+            flex: 1;
+            accent-color: var(--jade);
+            height: 3px;
+            cursor: var(--pointer)
+        }
+
+        .audio-bottom label {
+            font-size: 9px;
+            color: var(--jade);
+            white-space: nowrap
+        }
+
+        .essay {
+            grid-column: span 2;
+            padding: 24px;
+            min-height: 185px;
+            display: flex;
+            flex-direction: column
+        }
+
+        .essay h2 {
+            font-size: 22px;
+            line-height: 1.4;
+            font-weight: 450;
+            margin: 17px 0 9px
+        }
+
+        .essay p {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.9;
+            margin: 0;
+            max-width: 240px
+        }
+
+        .essay .empty-label {
+            margin-top: auto;
+            padding-top: 18px;
+            color: var(--jade);
+            font-size: 10px
+        }
+
+        .contact {
+            grid-column: span 2;
+            padding: 24px;
+            min-height: 185px;
+            background: linear-gradient(135deg, var(--card), #9cd6c329)
+        }
+
+        .contact h2 {
+            font-size: 22px;
+            font-weight: 450;
+            margin: 15px 0 4px
+        }
+
+        .contact p {
+            font-size: 11px;
+            color: var(--muted);
+            margin: 0
+        }
+
+        .contact>a {
+            display: block;
+            font-size: 11px;
+            color: var(--jade);
+            margin-top: 20px;
+            word-break: break-all
+        }
+
+        .copy {
+            position: absolute;
+            right: 17px;
+            bottom: 17px;
+            font-size: 10px;
+            border-radius: 9px;
+            padding: 6px 9px;
+            background: var(--card);
+            color: var(--muted)
+        }
+
+        .page-footer {
+            grid-column: 1/-1;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: var(--muted);
+            padding: 7px 4px;
+            letter-spacing: 1px
+        }
+
+        #leaves {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6
+        }
+
+        dialog {
+            color: var(--text);
+            background: var(--bg);
+            border: 1px solid var(--line);
+            border-radius: 25px;
+            max-width: min(760px, 92vw);
+            max-height: 90dvh;
+            padding: 35px;
+            box-shadow: 0 30px 100px #0003
+        }
+
+        dialog::backdrop {
+            background: #172c2870;
+            backdrop-filter: blur(14px)
+        }
+
+        .close {
+            position: absolute;
+            right: 15px;
+            top: 12px;
+            font-size: 24px;
+            color: var(--muted)
+        }
+
+        dialog h2 {
+            font-size: 28px;
+            font-weight: 500
+        }
+
+        dialog p {
+            font-size: 13px;
+            line-height: 2;
+            color: var(--muted)
+        }
+
+        dialog .full-art {
+            max-width: 100%;
+            max-height: 68dvh;
+            display: block;
+            margin: 0 auto;
+            object-fit: contain;
+            border-radius: 14px
+        }
+
+        .oc-detail {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: center
+        }
+
+        .oc-detail img {
+            width: 100%;
+            max-height: 420px;
+            object-fit: contain
+        }
+
+        .detail-tags {
+            font-size: 11px;
+            color: var(--jade);
+            line-height: 2.5
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translate(-50%, 15px);
+            background: var(--text);
+            color: var(--bg);
+            padding: 10px 20px;
+            border-radius: 14px;
+            font-size: 12px;
+            z-index: 20;
+            opacity: 0;
+            transition: .25s;
+            pointer-events: none
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0)
+        }
+
+        @keyframes arrive {
+            from {
+                opacity: 0;
+                transform: translateY(14px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        @media(min-width:1500px) {
+            .layout {
+                margin-top: 65px
+            }
+        }
+
+        @media(max-width:1000px) {
+            .layout {
+                grid-template-columns: 210px 1fr;
+                gap: 26px
+            }
+
+            .bento {
+                gap: 13px
+            }
+
+            .oc,
+            .artwork {
+                height: 330px
+            }
+
+            .oc img {
+                width: 200px;
+                height: 270px;
+                right: -40px
+            }
+
+            .oc .oc-title {
+                font-size: 28px
+            }
+
+            .social {
+                padding: 15px
+            }
+
+            .digits {
+                font-size: 36px
+            }
+        }
+
+        @media(max-width:760px) {
+            header {
+                padding: 20px
+            }
+
+            .layout {
+                display: block;
+                padding: 0 20px;
+                margin: 15px auto 35px
+            }
+
+            .identity {
+                position: static;
+                padding: 0 0 28px;
+                display: grid;
+                grid-template-columns: 76px 1fr;
+                column-gap: 20px
+            }
+
+            .avatar {
+                width: 76px;
+                height: 76px;
+                border-radius: 24px;
+                grid-row: span 2
+            }
+
+            .identity h1 {
+                font-size: 27px;
+                margin: 0;
+                line-height: 1.5
+            }
+
+            .identity .handle {
+                margin: 0
+            }
+
+            .identity p {
+                grid-column: 1/-1;
+                margin: 18px 0 14px;
+                max-width: 380px;
+                font-size: 12px
+            }
+
+            .tags {
+                grid-column: 1/-1;
+                margin: 0
+            }
+
+            .side-nav,
+            .side-note {
+                display: none
+            }
+
+            .bento {
+                gap: 13px
+            }
+
+            .oc,
+            .artwork {
+                height: 285px;
+                border-radius: 22px
+            }
+
+            .oc {
+                padding: 18px
+            }
+
+            .oc .oc-title {
+                font-size: 24px
+            }
+
+            .oc img {
+                height: 230px;
+                width: 175px;
+                right: -37px
+            }
+
+            .oc .oc-copy {
+                font-size: 9px;
+                bottom: 20px;
+                left: 18px
+            }
+
+            .oc .motif {
+                font-size: 60px;
+                right: 18px
+            }
+
+            .art-caption {
+                left: 18px;
+                bottom: 20px
+            }
+
+            .art-caption strong {
+                font-size: 17px
+            }
+
+            .art-caption span {
+                font-size: 9px
+            }
+
+            .card {
+                border-radius: 22px
+            }
+
+            .social {
+                grid-column: span 2;
+                min-height: 115px;
+                padding: 16px
+            }
+
+            .social strong {
+                font-size: 11px
+            }
+
+            .social small {
+                font-size: 8px
+            }
+
+            .social .arrow {
+                right: 10px;
+                top: 10px
+            }
+
+            .social .icon {
+                font-size: 21px
+            }
+
+            .clock,
+            .music {
+                grid-column: span 4;
+                padding: 21px;
+                min-height: 150px
+            }
+
+            .clock .digits {
+                font-size: 46px
+            }
+
+            .essay,
+            .contact {
+                grid-column: span 4;
+                min-height: 180px
+            }
+
+            .oc-detail {
+                display: block
+            }
+
+            .oc-detail img {
+                height: 230px
+            }
+
+            dialog {
+                padding: 28px
+            }
+
+            .top-controls {
+                gap: 6px
+            }
+
+            .pill {
+                padding: 8px 11px;
+                font-size: 10px
+            }
+
+            .page-footer {
+                font-size: 8px
+            }
+
+            .wordmark {
+                font-size: 11px;
+                letter-spacing: 1px
+            }
+        }
+
+        @media(max-width:380px) {
+            .bento {
+                gap: 10px
+            }
+
+            .layout {
+                padding: 0 14px
+            }
+
+            .oc img {
+                right: -50px
+            }
+
+            .oc .oc-title {
+                font-size: 21px
+            }
+
+            .social {
+                padding: 11px
+            }
+
+            .social small {
+                font-size: 7px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            *,
+            *:before,
+            *:after {
+                animation: none !important;
+                transition: none !important
+            }
+        }
+
+        input:not([type="range"]),
+        textarea {
+            cursor: url("assets/text.png") 18 20, text
+        }
+    </style>
+    <link rel="icon" href="assets/brand-maple.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="revision.css">
+<link rel="stylesheet" href="v3.css"><link rel="stylesheet" href="v4.css"><link rel="stylesheet" href="v5.css"><link rel="stylesheet" href="v6.css"><link rel="stylesheet" href="v7.css"><link rel="stylesheet" href="v8.css"><script src="content.js"></script></head>
+
+<body>
+    <div class="atmosphere" aria-hidden="true"></div><canvas id="leaves" aria-hidden="true"></canvas>
+    <header><a class="wordmark" href="#/"><img class="brand-leaf" src="assets/brand-maple.svg" alt="枫叶"> YELIANG'S CORNER</a>
+        <div class="top-controls"><button class="pill" id="leafToggle" aria-pressed="true">枫叶 · 开</button><button
+                class="pill" id="themeToggle" aria-label="切换深浅色主题">☾ 深色</button></div>
+    </header>
+    <main class="layout" id="home">
+        <aside class="identity">
+            <div class="avatar"><img src="assets/avatar.webp" alt="白发金瞳的狐狸角色头像"></div>
+            <h1>野猫隳良田</h1>
+            <div class="handle">@Norafox</div>
+            <p>欢迎来到我的小小角落。<br>这里收着我的 OC、稿件，<br>以及一些偶尔想写下的日常。</p>
+            <div class="tags"><span>oc</span><span>随笔</span><span>社交</span></div>
+            <nav class="side-nav" aria-label="页面内容"><a href="#/oc">野狐云集 <span>↗</span></a><a href="#/gallery">稿件展示
+                    <span>↗</span></a><a href="#/links">在别处找到我 <span>↗</span></a><a href="#/notes">随笔与日常
+                    <span>↗</span></a></nav>
+            <div class="side-note"><i></i> A LITTLE SPACE OF MY OWN<br>此间有狐，来日慢慢叙。</div>
+        </aside>
+        <div class="bento"><a href="#/oc" class="card oc" id="character" aria-label="查看角色设定" style="--delay:.04s">
+                <div class="card-label">MEET MY ORIGINAL CHARACTER</div>
+                <div class="oc-title">野狐<br>云集</div><img class="motif leaf-motif" src="assets/maple.svg" alt=""><img
+                    src="assets/fox-logo-cropped.svg" alt="野狐云集金色角色标志">
+                <div class="oc-copy">枫雪与桂香，相遇于此。</div><span class="round-link"
+                    aria-hidden="true">↗</span>
+            </a>
+            <div class="card artwork" id="artwork" style="--delay:.1s"><button id="viewArt" aria-label="进入稿件展厅"
+                    style="display:block;width:100%;height:100%;padding:0"><img id="featuredArt"
+                        src="assets/portrait.webp" alt="原创角色的朱枫肖像稿件">
+                    <div class="art-caption"><small>ARTWORK <b id="artCount" hidden>01</b></small><strong
+                            id="artName">稿件展示</strong><span>稿件中的一瞬，收在这里。 ↗</span></div>
+                </button><button class="art-next" id="nextArt" aria-label="下一幅稿件">→</button></div><a
+                class="card social x" id="accounts" href="https://x.com/Yeliang_Fox" target="_blank"
+                rel="noopener noreferrer" style="--delay:.16s"><span class="arrow">↗</span><span class="icon"
+                    aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg></span>
+                <div><strong>X / Twitter</strong><small>@Yeliang_Fox</small></div>
+            </a><a class="card social bluesky" href="https://bsky.app/profile/yeliang.bsky.social" target="_blank"
+                rel="noopener noreferrer" style="--delay:.2s"><span class="arrow">↗</span><span class="icon"
+                    aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M5.202 2.857C7.954 4.922 10.913 9.11 12 11.358c1.087-2.247 4.046-6.436 6.798-8.501C20.783 1.366 24 .213 24 3.883c0 .732-.42 6.156-.667 7.037-.856 3.061-3.978 3.842-6.755 3.37 4.854.826 6.089 3.562 3.422 6.299-5.065 5.196-7.28-1.304-7.847-2.97-.104-.305-.152-.448-.153-.327 0-.121-.05.022-.153.327-.568 1.666-2.782 8.166-7.847 2.97-2.667-2.737-1.432-5.473 3.422-6.3-2.777.473-5.899-.308-6.755-3.369C.42 10.04 0 4.615 0 3.883c0-3.67 3.217-2.517 5.202-1.026"/></svg></span>
+                <div><strong>Bluesky</strong><small>yeliang.bsky.social</small></div>
+            </a><a class="card social steam" href="https://steamcommunity.com/id/norafox0602" target="_blank"
+                rel="noopener noreferrer" style="--delay:.24s"><span class="arrow">↗</span><span class="icon"
+                    aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/></svg></span>
+                <div><strong>Steam</strong><small>norafox0602</small></div>
+            </a><a class="card social github" href="https://github.com/Norafox26" target="_blank"
+                rel="noopener noreferrer" style="--delay:.28s"><span class="arrow">↗</span><span class="icon"
+                    aria-hidden="true"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+                <div><strong>GitHub</strong><small>Norafox26</small></div>
+            </a>
+            <section class="card clock" aria-label="上海时间" style="--delay:.32s">
+                <div class="clock-top"><span class="card-label">A MOMENT IN TIME</span><span>SHANGHAI / UTC+8</span>
+                </div>
+                <div class="digits" id="time">--:--:--</div>
+                <div class="clock-date"><span id="date">正在读取时间</span></div>
+            </section>
+            <section class="card music" style="--delay:.36s">
+                <div class="card-label">SOUNDTRACK FOR THIS MOMENT</div>
+                <div class="record-scene" aria-hidden="true"><div class="record"><span></span></div><div class="record-sleeve"><img src="assets/music-cover.webp" alt="" draggable="false"><span>FOXING LIFE</span></div></div><div class="music-top">
+                    
+                    <div class="music-title"><strong id="trackTitle">给此刻，选一首歌。</strong><small id="trackMeta"></small></div><button class="play" id="play" aria-label="播放音乐"
+                        disabled>▶</button>
+                </div>
+                <div class="audio-bottom"><input id="seek" type="range" min="0" max="100" value="0" disabled
+                        aria-label="播放进度"><label for="audioFile">选择音乐 ↗</label><input type="file" id="audioFile"
+                        accept="audio/*" hidden></div><div class="track-times"><span id="elapsed">0:00</span><span id="duration">0:00</span></div><audio id="audio" preload="metadata"></audio>
+            </section><a href="#/notes" class="card essay" id="journal" style="--delay:.4s">
+                <div class="card-label">NOTES & LITTLE THOUGHTS</div>
+                <h2>狐言狐语</h2>
+                <span class="empty-label">打开随笔目录 ↗</span>
+            </a>
+            <section class="card contact" style="--delay:.44s">
+                <div class="card-label">SAY HELLO</div>
+                <h2>陪狐聊聊天吧~</h2>
+                <p>有想说的话，欢迎写信给我。</p><a href="mailto:yeliang0602@gmail.com">yeliang0602@gmail.com ↗</a><button
+                    class="copy" id="copyEmail">复制邮箱</button>
+            </section>
+            <footer class="page-footer"><span>© <span id="year"></span> Yeliang · 此间有狐</span></footer>
+        </div>
+    </main>
+    <dialog id="detail" aria-label="角色与稿件详情"><button class="close" aria-label="关闭详情">×</button>
+        <div id="detailContent"></div>
+    </dialog>
+    <div class="toast" role="status" id="toast"></div>
+    <script>
+        const $ = s => document.querySelector(s); const safeGet = k => { try { return localStorage.getItem(k) } catch { return null } }, safeSet = (k, v) => { try { localStorage.setItem(k, v) } catch { } }; let dark = safeGet('fox-theme') ? safeGet('fox-theme') === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches; function theme() { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; $('#themeToggle').textContent = dark ? '☀ 浅色' : '☾ 深色'; $('#themeToggle').setAttribute('aria-pressed', dark); document.querySelector('meta[name="theme-color"]').content = dark ? '#121315' : '#f5f4f1' } theme(); $('#themeToggle').onclick = () => { dark = !dark; theme(); safeSet('fox-theme', dark ? 'dark' : 'light') };
+        const arts = window.FOX_CONTENT.artworks.filter(a=>a.visible!==false).map(a=>[a.image,a.title,a.title]); let art = 0; if(!arts.length){arts.push(['assets/portrait.webp','暂无稿件','暂无稿件'])} $('#featuredArt').src=arts[0][0]; $('#nextArt').onclick = () => { art = (art + 1) % arts.length; $('#featuredArt').src = arts[art][0]; $('#featuredArt').alt = arts[art][2]; $('#artName').textContent = '稿件展示'; $('#artCount').textContent = String(art + 1).padStart(2, '0') }; const dialog = $('#detail'); let opener; function openDetail(content, from) { opener = from; $('#detailContent').innerHTML = content; dialog.showModal(); dialog.querySelector('.close').focus() } $('#character').onclick = e => { e.preventDefault(); openDetail('<div class="oc-detail"><img src="assets/form.webp" alt="角色完整衣装"><div><span class="card-label">ORIGINAL CHARACTER</span><h2>此间，有狐。</h2><p>白发间探出狐耳，金色眼瞳映着朱红。黑底朱纹的狐面、青色勾玉，以及红白相接的蓬松狐尾，组成一眼可辨的轮廓。</p><div class="detail-tags">枫叶 / 狐狸 / 勾玉 / 雪<br>面具 / 式神 / 日系 / 国风</div><p>更多角色设定将逐渐补充。<br>作品画师署名待补充。</p></div></div>', e.currentTarget) }; $('#viewArt').onclick = e => openDetail('<img class="full-art" src="' + arts[art][0] + '" alt="' + arts[art][2] + '"><p>' + arts[art][1] + ' · 角色稿件<br>作品画师署名待补充。</p>', e.currentTarget); dialog.querySelector('.close').onclick = () => dialog.close(); dialog.addEventListener('close', () => opener?.focus()); dialog.addEventListener('click', e => { if (e.target === dialog) { let r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close() } });
+        function clock() { let n = new Date(); $('#time').textContent = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(n); $('#date').textContent = new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' }).format(n); $('#year').textContent = new Intl.DateTimeFormat('en', { timeZone: 'Asia/Shanghai', year: 'numeric' }).format(n) } clock(); setInterval(clock, 1000);
+        let toastTimer; function toast(t) { $('#toast').textContent = t; $('#toast').classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => $('#toast').classList.remove('show'), 2200) } $('#copyEmail').onclick = async () => { try { await navigator.clipboard.writeText('yeliang0602@gmail.com'); toast('邮箱已复制') } catch { toast('邮箱：yeliang0602@gmail.com') } };
+        const audio = $('#audio'); let audioUrl; $('#audioFile').onchange = e => { const f = e.target.files[0]; if (!f) return; audio.pause(); if (audioUrl) URL.revokeObjectURL(audioUrl); audioUrl = URL.createObjectURL(f); audio.src = audioUrl; $('#trackTitle').textContent = f.name.replace(/\.[^.]+$/, ''); $('#trackMeta').textContent = '本地音乐 · 点击播放'; $('#play').disabled = false; $('#seek').value = 0; $('#seek').disabled = true }; $('#play').onclick = async () => { try { if (audio.paused) await audio.play(); else audio.pause() } catch { toast('无法播放该音频，请换一个文件') } }; function player() { let playing = !audio.paused && !audio.ended; $('#play').textContent = playing ? 'Ⅱ' : '▶'; $('#play').setAttribute('aria-label', playing ? '暂停音乐' : '播放音乐'); $('.music').classList.toggle('playing', playing) } audio.onplay = player; audio.onpause = player; audio.onended = player; audio.onloadedmetadata = () => $('#seek').disabled = !Number.isFinite(audio.duration); audio.ontimeupdate = () => { if (Number.isFinite(audio.duration)) $('#seek').value = audio.currentTime / audio.duration * 100 }; $('#seek').oninput = e => { if (Number.isFinite(audio.duration)) audio.currentTime = audio.duration * e.target.value / 100 }; audio.onerror = () => { if (audio.src) { toast('音频格式不受支持，请选择其他文件'); $('#play').disabled = true } };
+        for (const card of document.querySelectorAll('.card')) card.addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; const r = card.getBoundingClientRect(); card.style.setProperty('--mx', (e.clientX - r.left) + 'px'); card.style.setProperty('--my', (e.clientY - r.top) + 'px') });
+        const reduced = matchMedia('(prefers-reduced-motion:reduce)'); let leavesOn = safeGet('fox-leaves') !== 'off' && !reduced.matches; const cv = $('#leaves'), ctx = cv.getContext('2d'); let W, H, particles = [], last = 0, raf = 0; const leafShape=new Path2D('M0 -20 L5 -8 L9 -11 L8 -1 L19 -9 L15 1 L20 3 L8 12 L3 11 L1 21 L-1 21 L-2 11 L-8 12 L-20 3 L-15 1 L-19 -9 L-8 -1 L-9 -11 L-5 -8 Z'); function size() { W = innerWidth; H = innerHeight; let d = Math.min(devicePixelRatio || 1, 1.5); cv.width = W * d; cv.height = H * d; ctx.setTransform(d, 0, 0, d, 0, 0); particles = Array.from({ length:W<650?5:10 }, () => ({ x: Math.random() * W, y: Math.random() * H, s:.48+Math.random()*.34, r: Math.random() * 6, v: 17 + Math.random() * 20, a: Math.random() * 6, c: Math.random() > .2 ? '#d83b30' : '#dba821' })) } function animate(t) { if (!leavesOn || reduced.matches) { ctx.clearRect(0, 0, W, H); raf = 0; return } let dt = Math.min(.05, (t - last) / 1000 || 0); last = t; ctx.clearRect(0, 0, W, H); if (!document.hidden) for (const p of particles) { p.y += p.v * dt; p.x += Math.sin(t * .0003 + p.a) * 9 * dt; p.r += dt * .2; if (p.y > H + 20) { p.y = -25; p.x = Math.random() * W } ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(p.s * Math.cos(t * .0005 + p.a), p.s); ctx.globalAlpha=.7; ctx.fillStyle = p.c; ctx.fill(leafShape); ctx.restore() } raf = requestAnimationFrame(animate) } function leafUI() { $('#leafToggle').textContent = leavesOn ? '枫叶 · 开' : '枫叶 · 关'; $('#leafToggle').setAttribute('aria-pressed', leavesOn); if (leavesOn && !raf) { last = performance.now(); raf = requestAnimationFrame(animate) } } size(); leafUI(); addEventListener('resize', size); $('#leafToggle').onclick = () => { leavesOn = !leavesOn; safeSet('fox-leaves', leavesOn ? 'on' : 'off'); leafUI() }; reduced.addEventListener('change', () => { if (reduced.matches) { leavesOn = false; leafUI() } });
+    </script>
+    <script src="cursor-data.js"></script>
+    <script src="articles.js"></script><script src="v5.js"></script><script src="revision.js"></script>
+<script src="v3.js"></script><script src="v4.js"></script><script src="v6.js"></script><script src="v7.js"></script><script src="audio-tags.js"></script><script src="v8.js"></script></body>
+
+</html>
