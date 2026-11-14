@@ -36,3 +36,9 @@
 .gallery-page:not(.gallery-transition) .exhibit{transition-property:translate!important;will-change:transform,opacity}
 .gallery-heading h1,#exhibitTitle,.exhibit span,.fall-card span,.lift-title,.art-caption strong{font-family:Dragon,GuYun!important;font-weight:400}
 .lift-title{display:block;font-size:22px;line-height:1.3}.lift-meta{display:block;font-size:13px;line-height:1.6}
+
+/* Theme corrections: clear return control, consistent paper journal index. */
+.characters-page .route-nav .route-back{color:#293e3f!important;background:#f5edddf5!important;border-color:#536b6c55;box-shadow:0 4px 16px #172c3b20}
+.characters-page .route-nav .route-back:hover{color:#20363b!important;background:#edc55f!important;box-shadow:4px 4px 0 #61b3bf}
+.notes-page{--bg:#eee8dd;--text:#202327;--muted:#6c6962;--line:#ffffff30;--card:#f6eddb;--red:#d84436;--jade:#2698aa;--gold:#e3b43c;color:#202327!important;background-color:#eee8dd!important;color-scheme:light}
+.notes-page .route-nav .route-back{color:#293e3f;background:#f1e8d5c9}
